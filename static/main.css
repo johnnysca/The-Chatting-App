@@ -1,0 +1,29 @@
+ul.homeNavBar {
+  list-style-type: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 50px;
+  background-color: black;
+
+}
+
+ul.homeNavBar li {
+    float: left;
+}
+
+ul.homeNavBar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.homeNavBar li a:hover {
+  background-color: #008000;
+}
