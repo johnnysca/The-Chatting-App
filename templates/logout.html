@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatting Application</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+</head>
+<body style="background-color: #5555dd">
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<ul class="homeNavBar">
+    <li><a href="/login"> Sign in</a></li>
+    <li><a href="/signup"> Sign up</a></li>
+    <li><a href="/"> Home</a></li>
+</ul>
+</body>
+</html>
