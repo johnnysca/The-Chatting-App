@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from Client import Client
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:0011223344@localhost/logins'
@@ -17,21 +18,29 @@ class Users(db.Model):
         self.username = username
         self.password = password
 
+client = [] # testing
+# C1 = Client()
+
 @app.route('/')
 def home():
     return render_template('home.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+
+    global client # testing
+
     if request.method == 'POST': # if user submits a login check if it exists
-        session['username'] = request.form.get('username') # session will keep track of who is logged in
-        session['password'] = request.form.get('password')
-        print(session['username'])
-        print(session['password'])
-        users = Users.query.filter_by(username=session['username']).first() # get all the usernames that are in DB that match with entered username
-        if users and users.password == session['password']: # if username is found then check if the password is exact
+        username = request.form.get('username')
+        password = request.form.get('password')
+        users = Users.query.filter_by(username=username).first() # get all the usernames that are in DB that match with entered username
+        if users and users.password == password: # if username is found then check if the password is exact
             flash('Login successful!')
-            return render_template('chat.html')
+            session['username'] = username
+            client.append(Client(session['username'])) # testing
+
+
+            return redirect(url_for('chat'))
         else:
             flash('Username or password are incorrect')
             return render_template('login.html')
@@ -64,12 +73,21 @@ def logout():
     session.pop('username', None) # log out the user
     return render_template('logout.html')
 
-@app.route('/chat')
+@app.route('/chat', methods=['POST', 'GET'])
 def chat():
-    if 'username' in session:
-        return render_template('chat.html')
-    else:
+    if 'username' not in session:
         return redirect(url_for('login'))
+    else:
+        global client
+        if client:
+            if request.method == "POST":
+                print(session['username'], ':', request.form.get('message'))
+                print("client2 ", client)
+                client.send_message(request.form.get('message'))
+                return render_template('chat.html')
+            return render_template('chat.html')
+        else:
+            return render_template('chat.html')
 
 app.secret_key = 'temporary keyu'
 

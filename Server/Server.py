@@ -33,7 +33,7 @@ def client_communication(user_info):
             msg = client_socket.recv(SIZ)
             if msg == bytes("{q}", "utf8"):
                 client_socket.close()
-                Users_list.remove(client_socket)
+                Users_list.remove(user_info)
                 broadcast(f"{name} has left the chat", "")
                 print(f"[DISCONNECTED] {name} disconnected")
             else:
