@@ -42,15 +42,13 @@ def login():
             flash('Login successful!')
             session['username'] = username
             print("sessions ", session['username'])
-
-
-            return redirect(url_for('chat'))
+            return redirect(url_for('room'))
         else:
             flash('Username or password are incorrect')
             return render_template('login.html')
     else:
         if 'username' in session: # user is still signed in, no need to re-sign in
-            return redirect('/chat')
+            return redirect('/room')
         return render_template('login.html')
 
 
@@ -81,6 +79,8 @@ def logout():
 
 @app.route('/chat', methods=['POST', 'GET'])
 def chat():
+    defaultroom = request.form['room']
+    session['room'] = defaultroom
     if 'username' not in session:
         return redirect(url_for('login'))
     else:
@@ -89,14 +89,27 @@ def chat():
         return render_template('chat.html')
 
 
+@app.route('/room', methods=['GET', 'POST'])
+def room():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    else:
+        if request.method == "POST":
+            return render_template('room.html')
+        return render_template('room.html')
+
+
 @socketio.on('join', namespace='/chat') # for when you join the chatroom
 def join(message):
+    defaultroom = session.get('room')
     join_room(defaultroom)
     emit('status', {'msg': session['username'] + ' has joined the chat'}, room=defaultroom)
+
 
 @socketio.on('text', namespace='/chat') # for when you send a message
 def text(message):
     emit('message', {'msg': session['username'] + ': ' + message['msg']}, room=defaultroom)
+
 
 @socketio.on('left', namespace='/chat') # for when you leave a chat server
 def left(message):

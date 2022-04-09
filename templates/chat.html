@@ -3,44 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Chatting Application</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
 
     <script type = "text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js" integrity="sha512-aC5ZfKOuGRUiJCv+E/EIWsj49E02BQpuLQbixZe+16Lm1R6AepHZA1xvY92XBQNNbwQoqG4DXCGxwoxBFb5Q1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript" charset="utf-8">
-           var socket;
-            $(document).ready(function(){
-                socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
-                socket.on('connect', function() {
-                    socket.emit('join', {});
-                });
-                socket.on('status', function(data) {
-                    $('#chat').val($('#chat').val() + data.msg + '\n');
-                    $('#chat').scrollTop($('#chat')[0].scrollHeight);
-                });
-                socket.on('message', function(data) {
-                    $('#chat').val($('#chat').val() + data.msg + '\n');
-                    $('#chat').scrollTop($('#chat')[0].scrollHeight);
-                });
-                $('#send').click(function(e) {
-                        text = $('#text').val();
-                        $('#text').val('');
-                        socket.emit('text', {msg: text});
-                });
-            });
-            function leave_room() {
-                socket.emit('left', {}, function() {
-                    socket.disconnect();
-                    window.location.href = "{{ url_for('login') }}";
-                });
-            }
-
-    </script>
+    <script type="text/javascript" charset="utf-8" src="/static/socket.js"></script>
 </head>
 <body>
-<h1><center>This is where the chatting part will go</center></h1>
-</body>
-<div class="messageBox" align="center">
-    <textarea id="chat" cols="70" rows="10" placeholder="Send Message to Display Here"></textarea>
+<ul class="homeNavBar">
+    <li><a href="/"> Home</a></li>
+    <li><a href="/logout"> Sign out</a></li>
+</ul>
+<div class="messageBox" style="text-align:center; position: absolute; top:50%; left:50%; margin-top:-15%; margin-left:-16%;">
+    <h1>Welcome to Chatting App</h1>
+    <h2>Room: {{session['room']}}</h2>
+    <textarea id="chat" cols="70" rows="10" placeholder="Send Message to Display Here"></textarea><br>
     <input type="text" id="text" placeholder="Message"/>
     <button type="submit" id="send">Send</button>
     <button type="button" onclick=leave_room()>Leave</button>

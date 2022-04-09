@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align:center; position: fixed; top:50%; left:50%; margin-top:-50px; margin-left:-100px;">
+    <h1>Enter Room ID</h1>
+    <form action="{{ url_for('chat') }}" method="POST">
+        <input type="text" id="room" name="room" placeholder="Room" required><br>
+        <button value="submit">Enter</button>
+    </form>
+</body>
+</html>
