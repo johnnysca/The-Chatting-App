@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 Session(app)
 socketio = SocketIO(app, manage_session=False)
 
-defaultroom = 'room1' # this is so everyone joins the same room if not everyone will be in their own rooms
+# defaultroom = 'room1' # this is so everyone joins the same room if not everyone will be in their own rooms
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -79,11 +79,11 @@ def logout():
 
 @app.route('/chat', methods=['POST', 'GET'])
 def chat():
-    defaultroom = request.form['room']
-    session['room'] = defaultroom
     if 'username' not in session:
         return redirect(url_for('login'))
     else:
+        defaultroom = request.form['room']
+        session['room'] = defaultroom
         if request.method == "POST":
             return render_template('chat.html')
         return render_template('chat.html')
@@ -95,6 +95,7 @@ def room():
         return redirect(url_for('login'))
     else:
         if request.method == "POST":
+
             return render_template('room.html')
         return render_template('room.html')
 
@@ -108,14 +109,17 @@ def join(message):
 
 @socketio.on('text', namespace='/chat') # for when you send a message
 def text(message):
+    defaultroom = session.get('room')
     emit('message', {'msg': session['username'] + ': ' + message['msg']}, room=defaultroom)
 
 
 @socketio.on('left', namespace='/chat') # for when you leave a chat server
 def left(message):
-    username = session['username']
+    username = session.get('username')
+    defaultroom = session.get('room')
+    print(username, defaultroom)
     leave_room(defaultroom)
-    session.clear()
+    # session.clear()
     emit('status', {'msg': username + ' has left the chat'}, room=defaultroom)
 
 

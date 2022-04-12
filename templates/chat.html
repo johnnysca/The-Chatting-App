@@ -7,7 +7,7 @@
 
     <script type = "text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js" integrity="sha512-aC5ZfKOuGRUiJCv+E/EIWsj49E02BQpuLQbixZe+16Lm1R6AepHZA1xvY92XBQNNbwQoqG4DXCGxwoxBFb5Q1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript" charset="utf-8" src="/static/socket.js"></script>
+    <script type="text/javascript" charset = "utf-8" src="{{ url_for('static', filename='socket.js') }}"></script>
 </head>
 <body>
 <ul class="homeNavBar">
@@ -20,7 +20,7 @@
     <textarea id="chat" cols="70" rows="10" placeholder="Send Message to Display Here"></textarea><br>
     <input type="text" id="text" placeholder="Message"/>
     <button type="submit" id="send">Send</button>
-    <button type="button" onclick=leave_room()>Leave</button>
+    <input type="button" onclick="leave_room()" value="Leave">
 </div>
 </body>
 </html>

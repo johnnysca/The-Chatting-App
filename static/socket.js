@@ -21,7 +21,8 @@ $(document).ready(function(){
 });
 function leave_room() {
     socket.emit('left', {}, function() {
+        console.log('leaving')
         socket.disconnect();
-        window.location.href = "{{ url_for('login') }}";
+        window.location.href = "/room", true;
     });
 }
