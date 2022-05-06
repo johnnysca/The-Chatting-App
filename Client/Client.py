@@ -1,21 +1,22 @@
 import time
 from socket import *
-from threading import Thread
+from threading import Thread, Lock
 
 class Client:
     SEVER_HOST = "127.0.0.1"
     PORT = 5500
     ADDRESS = (SEVER_HOST, PORT)
     SIZ = 512
-    messages = []
 
     def __init__(self, name):
         self.client_socket = socket(AF_INET, SOCK_STREAM)
         self.client_socket.connect(self.ADDRESS)
+        self.messages = []
         receive_thread = Thread(target=self.listen_for_message)
         receive_thread.daemon = True
         receive_thread.start()
         self.send_message(name) # added this line
+        self.lock = Lock()
     
 
     def listen_for_message(self):
@@ -23,7 +24,9 @@ class Client:
         while run:
             try:
                 msg = self.client_socket.recv(self.SIZ).decode("utf8")
+                self.lock.acquire()
                 self.messages.append(msg)
+                self.lock.release()
                 print(msg)
 
             except Exception as e:

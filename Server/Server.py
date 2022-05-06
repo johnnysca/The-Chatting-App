@@ -24,6 +24,7 @@ def broadcast(msg, name):
 def client_communication(user_info):
     client_socket = user_info.client_socket
     name = client_socket.recv(SIZ).decode("utf8")
+    user_info.set_name(name) # added
     msg = bytes(f"{name} has joined the chat!", "utf8")
     broadcast(msg, "")
 
@@ -49,7 +50,7 @@ def waiting_for_connection():
     run = True
     while run:
         try:
-            (client_socket, addr) = SERVER.accept()
+            client_socket, addr = SERVER.accept()
             user_info = User(None, client_socket, addr)
             Users_list.append(user_info)
             print(f"[CONNECTION] {addr} connected to the server at {ctime(time())}")

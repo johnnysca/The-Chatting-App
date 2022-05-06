@@ -4,7 +4,7 @@ class User:
         self.client_socket = client
         self.addr = addr
 
-    def set_name__(self, name):
+    def set_name(self, name):
         self.name = name
 
     def __repr__(self):
