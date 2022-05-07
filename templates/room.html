@@ -5,14 +5,26 @@
     <title>Chat Application</title>
     <link rel="stylesheet" type="text/css" href="/static/main.css">
 </head>
-<div class="waiting-room">
-<body style="text-align:center; position: fixed; top:50%; left:50%; margin-top:-50px; margin-left:-100px;">
+<body>
+
+<nav class="navbar">
+    <div class="logo">CHAT APP</div>
+        <div style="down: -10px" class="homeNavBar">
+            <li>
+                <li><a style="color:black" href="/">Home</a></li>
+    <li><a style="color:black" href="/logout"> Sign out</a></li>
+            </li>
+        </div>
+</nav>
+<div class="waiting-room" style="text-align:center; position: fixed; top:50%; left:50%; margin-top:-50px; margin-left:-100px;">
     <h1>Enter Room ID</h1>
+    <p>&nbsp;</p>
     <form action="{{ url_for('chat') }}" method="POST">
-        <input type="text" id="room" name="room" placeholder="Room" required>
-        <p></p>
+        <input style="height:30px; font-size:14px;" type="text" id="room" name="room" placeholder="Room" required>
+        <p>&nbsp;</p>
         <button  type="submit" id="send">Enter</button>
     </form>
-</body>
+
 </div>
+</body>
 </html>
