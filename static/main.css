@@ -1,3 +1,4 @@
+html { overflow-y: scroll; }
 *{
 margin: 0;
 padding: 0;
@@ -200,47 +201,17 @@ margin-top: 12px;
   margin: -10px;
 }
 
+ .boxed {
+        background-color: white;
+        width: 700px;
+        height: 400px;
+        overflow: auto;
+        text-align: justify;
+        padding: 20px;
+        box-shadow: 0 0 15px 15px black;
+        border-radius: 20px;
+      }
 
-/* Darker chat container */
-            .darker {
-              border-color: #ccc;
-              background-color: #ddd;
-            }
-
-            /* Clear floats */
-            .messageBox::after {
-              content: "";
-              clear: both;
-              display: table;
-            }
-
-            /* Style images */
-            .messageBox b {
-              float: left;
-              max-width: 60px;
-              width: 100%;
-              margin-right: 20px;
-              border-radius: 50%;
-            }
-
-            /* Style the right image */
-            .messageBox b.right {
-              float: right;
-              margin-left: 20px;
-              margin-right:0;
-            }
-
-            /* Style time text */
-            .time-right {
-              float: right;
-              color: #aaa;
-            }
-
-            /* Style time text */
-            .time-left {
-              float: left;
-              color: #999;
-            }
 #room{
     flex: 0;
     border-radius: 10px;
